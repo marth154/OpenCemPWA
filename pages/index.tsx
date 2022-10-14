@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import Layout from "../src/components/layout";
 import ProgressSpinner from "../src/utils/PrgrossSpiner";
 
 const MapContainerComponent
@@ -7,10 +8,12 @@ const MapContainerComponent
     ssr: false,
   });
 
-export default function Home() {
+export default function Map() {
   return (
     <>
-
+      <Layout>
+        <MapContainerComponent />
+      </Layout>
     </>
   )
 }

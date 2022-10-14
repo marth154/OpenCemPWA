@@ -1,7 +1,7 @@
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
 import FormatListBulletedRoundedIcon from '@mui/icons-material/FormatListBulletedRounded';
 import MapRoundedIcon from '@mui/icons-material/MapRounded';
-import { Stack } from '@mui/material';
+import { Avatar, Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
@@ -11,9 +11,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { ReactNode } from 'react';
+import LoginForm from '../authentication/LoginForm';
 
 const drawerWidth = 240;
 
@@ -30,7 +32,7 @@ const navConfig = [
     {
         text: "Map",
         icon: <MapRoundedIcon />,
-        route: "/map"
+        route: "/"
     }, {
         text: "List",
         icon: <FormatListBulletedRoundedIcon />,
@@ -41,6 +43,7 @@ const navConfig = [
 export default function Layout(props: Props) {
     const { window } = props;
     const router = useRouter()
+    const { data: session } = useSession()
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     const handleDrawerToggle = () => {
@@ -51,7 +54,18 @@ export default function Layout(props: Props) {
         <>
             <Stack direction="column" >
                 <>
-                    <Typography>Martin DANVERS</Typography>
+                    <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 2 }} >
+                        {
+                            session ?
+                                <>
+                                    <Avatar src="" />
+                                    <Typography>Martin DANVERS</Typography>
+                                </>
+                                : <>
+                                    <LoginForm />
+                                </>
+                        }
+                    </Stack>
                     <Divider />
                     <List>
                         {navConfig.map((item) => (
@@ -66,14 +80,14 @@ export default function Layout(props: Props) {
                         ))}
                     </List>
                 </>
-                <ListItem key={"Déconnexion"} disablePadding>
+                {session && <ListItem key={"Déconnexion"} disablePadding>
                     <ListItemButton>
                         <ListItemIcon>
                             <ExitToAppRoundedIcon />
                         </ListItemIcon>
                         <ListItemText primary={"Déconnexion"} />
                     </ListItemButton>
-                </ListItem>
+                </ListItem>}
             </Stack>
         </>
     );
