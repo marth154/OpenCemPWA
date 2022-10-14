@@ -8,7 +8,7 @@ const MapContainerComponent
     ssr: false,
   });
 
-export default function Home() {
+export default function Map() {
   return (
     <>
       <Layout>
