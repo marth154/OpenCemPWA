@@ -8,7 +8,7 @@ import typeDevice from "./mock_data/typeDevice";
 
 interface Props {
     details: Details | undefined
-    setOpen: (value: boolean) => void
+    setOpen?: (value: boolean) => void
     fetchPoint: () => void
 }
 
@@ -26,7 +26,7 @@ export default function PointDetails({ details, fetchPoint, setOpen }: Props) {
                 body: JSON.stringify({ id: id })
             }).then((res) => {
                 fetchPoint()
-                setOpen(false)
+                setOpen && setOpen(false)
                 setLoad(false)
             })
         } catch (error) {
@@ -46,7 +46,7 @@ export default function PointDetails({ details, fetchPoint, setOpen }: Props) {
                         <Typography>Type: {_type?.label}</Typography>
                     </Stack>
                     {session.access == "EDIT" && <Stack direction="row" justifyContent="space-around">
-                        <Button onClick={() => {setMode("update"); setOpen(true)}}>
+                        <Button onClick={() => {setMode("update"); setOpen && setOpen(true)}}>
                             Modifier
                         </Button>
                         <LoadingButton loading={load} color="error" variant="contained" onClick={() => {
