@@ -1,3 +1,4 @@
+import { Container } from "@mui/material";
 import dynamic from "next/dynamic";
 import Layout from "../src/components/layout";
 import ProgressSpinner from "../src/utils/PrgrossSpiner";
@@ -12,7 +13,9 @@ export default function Map() {
   return (
     <>
       <Layout>
-        <MapContainerComponent />
+        <Container maxWidth={false}>
+          <MapContainerComponent />
+        </Container>
       </Layout>
     </>
   )

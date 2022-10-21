@@ -28,8 +28,6 @@ interface Props {
     children: ReactNode
 }
 
-
-
 export default function Layout(props: Props) {
 
     const { window } = props;
@@ -52,21 +50,24 @@ export default function Layout(props: Props) {
     const navConfig = [
         {
             text: "Map",
-            icon: <MapRoundedIcon />,
+            icon: <MapRoundedIcon sx={{ color: "white" }} />,
             route: "/"
         }, {
             text: "List",
-            icon: <FormatListBulletedRoundedIcon />,
+            icon: <FormatListBulletedRoundedIcon sx={{ color: "white" }} />,
             route: "/list"
         }
     ]
     const drawer = (
         <>
-            <Stack direction="column" >
-                <>
+            <Stack direction="column" sx={{
+                backgroundColor: "#9B887A",
+                height: "100vh",
+            }} justifyContent="space-between" >
+                <Stack>
                     <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 2 }} >
-                        <Avatar src="" />
-                        <Typography>{session.name}</Typography>
+                        <Avatar src="https://marketplace.canva.com/EAE6OH6DF2w/1/0/1600w/canva-moon-astronaut-character-twitch-profile-picture-0kkgyJSodt4.jpg" />
+                        <Typography color="white">{session.name}</Typography>
                     </Stack>
                     <Divider />
                     <List>
@@ -80,20 +81,20 @@ export default function Layout(props: Props) {
                                             <ListItemIcon>
                                                 {item.icon}
                                             </ListItemIcon>
-                                            <ListItemText primary={item.text} />
+                                            <ListItemText sx={{ color: "white" }} primary={item.text} />
                                         </ListItemButton>
                                     </ListItem>
                                 )
                             }
                         })}
                     </List>
-                </>
+                </Stack>
                 <ListItem key={"Déconnexion"} disablePadding>
                     <ListItemButton onClick={() => signOut()}>
                         <ListItemIcon>
-                            <ExitToAppRoundedIcon />
+                            <ExitToAppRoundedIcon sx={{ color: "white" }} />
                         </ListItemIcon>
-                        <ListItemText primary={"Déconnexion"} />
+                        <ListItemText sx={{ color: "white" }} primary={"Déconnexion"} />
                     </ListItemButton>
                 </ListItem>
             </Stack>
@@ -102,14 +103,13 @@ export default function Layout(props: Props) {
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
-    // if (!session.id) {
-    //     router.push("/login")
-    // }
     return (
         <Box sx={{ display: 'flex' }}>
             <Box
                 component="nav"
-                sx={{ width: { sm: drawerWidth } }}
+                sx={{
+                    width: { sm: drawerWidth }
+                }}
                 aria-label="mailbox folders"
             >
                 <Drawer
@@ -140,10 +140,13 @@ export default function Layout(props: Props) {
             </Box>
             <Box
                 component="main"
-                sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+                sx={{
+                    flexGrow: 1,
+                    width: { sm: `calc(100% - ${drawerWidth}px)` }
+                }}
             >
                 {props.children}
             </Box>
-        </Box>
+        </Box >
     );
 }

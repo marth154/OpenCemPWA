@@ -1,11 +1,11 @@
 
-import { Button, Dialog, DialogContent, DialogTitle, Stack, Table, TableCell, TableHead, TableRow } from '@mui/material';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { Button, Dialog, DialogContent, DialogTitle, IconButton, Stack, Table, TableCell, TableHead, TableRow } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import User from '../../@types/user';
 import FormUser from '../../utils/FormUser';
 import ProgressSpinner from '../../utils/PrgrossSpiner';
-
 export default function ListUser() {
     const [listUser, setListUser] = useState<User[]>()
     const [openDialog, setOpenDialog] = useState<boolean>(false)
@@ -43,33 +43,40 @@ export default function ListUser() {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>ID</TableCell>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Email</TableCell>
-                            <TableCell>Accès</TableCell>
-                            <TableCell>Edit</TableCell>
+                            <TableCell sx={{fontFamily: "Lancelot", fontSize: "25px"}}>ID</TableCell>
+                            <TableCell sx={{fontFamily: "Lancelot", fontSize: "25px"}}>Name</TableCell>
+                            <TableCell sx={{fontFamily: "Lancelot", fontSize: "25px"}}>Email</TableCell>
+                            <TableCell sx={{fontFamily: "Lancelot", fontSize: "25px"}}>Accès</TableCell>
+                            <TableCell sx={{fontFamily: "Lancelot", fontSize: "25px"}}>Edit</TableCell>
                         </TableRow>
                     </TableHead>
                     {listUser.map((user: User) => {
                         return (
                             <>
-                                <TableRow>
-                                    <TableCell>
+                                <TableRow sx={{ boxShadow: "0px 5px 5px #00000025" }}>
+                                    <TableCell sx={{ fontFamily: "Poppins, sans-serif" }}>
                                         {user._id}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell sx={{ fontFamily: "Poppins, sans-serif" }}>
                                         {user.name}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell sx={{ fontFamily: "Poppins, sans-serif" }}>
                                         {user.email}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell sx={{ fontFamily: "Poppins, sans-serif" }}>
                                         {user.access === "READ_ONLY" ? "Read Only" : "Edit"}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell sx={{ fontFamily: "Poppins, sans-serif" }}>
                                         <Stack direction="row" spacing={2}>
-                                            <Button variant='contained' color="success" onClick={() => { setMode("update"); setUserSelected(user); setOpenDialog(true); }}>Edit</Button>
-                                            <Button variant='contained' color="error" onClick={() => handleDelete(user._id)}>Delete</Button>
+                                            <Button variant='contained' sx={{ backgroundColor: "#9B887A", color: "white" }} onClick={() => { setMode("update"); setUserSelected(user); setOpenDialog(true); }}>Edit</Button>
+                                            <IconButton sx={{
+                                                backgroundColor: "#710E0E", color: "white", ":hover": {
+                                                    backgroundColor: "#710E0E",
+                                                    boxShadow: "0px 5px 5px #00000050;"
+                                                }
+                                            }} onClick={() => handleDelete(user._id)}>
+                                                <DeleteOutlineIcon />
+                                            </IconButton>
                                         </Stack>
                                     </TableCell>
                                     <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>

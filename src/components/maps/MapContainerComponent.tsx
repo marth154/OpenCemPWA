@@ -40,7 +40,7 @@ export default function MapContainerComponent() {
 
     return (
         <MapContainer
-            style={{ height: "37rem" }}
+            style={{ height: "70vh", border: "3px solid #9B887A"}}
             center={[47, 2]}
             zoom={6}
             scrollWheelZoom={true}

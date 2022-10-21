@@ -1,4 +1,5 @@
-import { Button, Dialog, DialogContent, DialogTitle, Stack, Table, TableCell, TableHead, TableRow } from '@mui/material';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { Button, Dialog, DialogContent, DialogTitle, IconButton, Stack, Table, TableCell, TableHead, TableRow } from '@mui/material';
 import Box from '@mui/material/Box';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
@@ -49,34 +50,39 @@ export default function ListPoint() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell>Type</TableCell>
-              {session.access === "EDIT" && <TableCell>Edit</TableCell>}
+              <TableCell sx={{fontFamily: "Lancelot", fontSize: "25px"}}>ID</TableCell>
+              <TableCell sx={{fontFamily: "Lancelot", fontSize: "25px"}}>Name</TableCell>
+              <TableCell sx={{fontFamily: "Lancelot", fontSize: "25px"}}>Date</TableCell>
+              <TableCell sx={{fontFamily: "Lancelot", fontSize: "25px"}}>Type</TableCell>
+              {session.access === "EDIT" && <TableCell sx={{fontFamily: "Lancelot", fontSize: "25px"}}>Edit</TableCell>}
             </TableRow>
           </TableHead>
           {listPoint.map((point: Details) => {
             return (
               <>
-                <TableRow>
-                  <TableCell>
+                <TableRow sx={{ boxShadow: "0px 5px 5px #00000025" }}>
+                  <TableCell sx={{ fontFamily: "Poppins, sans-serif" }}>
                     {point._id}
                   </TableCell>
-                  <TableCell>
+                  <TableCell sx={{ fontFamily: "Poppins, sans-serif" }}>
                     {point.name}
                   </TableCell>
-                  <TableCell>
+                  <TableCell sx={{ fontFamily: "Poppins, sans-serif" }}>
                     {format(new Date(point.createdAt), "P p")}
                   </TableCell>
-                  <TableCell>
+                  <TableCell sx={{ fontFamily: "Poppins, sans-serif" }}>
                     {typeDevice.find((t) => { return t.value === point.type })?.label}
                   </TableCell>
                   {session.access == "EDIT" && <TableCell>
                     <Stack direction="row" spacing={2}>
-                      <Button variant='contained' color="success" onClick={() => { setMode("update"); setPointSelected(point); setOpenDialog(true) }}>Edit</Button>
-                      <Button variant='contained' color="info" onClick={() => { setMode("read"); setOpenDialog(true) }}>Details</Button>
-                      <Button variant='contained' color="error" onClick={() => handleDelete(point._id)}>Delete</Button>
+                      <Button variant='contained' sx={{ backgroundColor: "#9B887A" }} onClick={() => { setMode("update"); setPointSelected(point); setOpenDialog(true) }}>Edit</Button>
+                      <Button variant='contained' sx={{ backgroundColor: "#0D68A9" }} onClick={() => { setMode("read"); setOpenDialog(true) }}>Details</Button>
+                      <IconButton sx={{ backgroundColor: "#710E0E", color: "white", ":hover": {
+                        backgroundColor: "#710E0E",
+                        boxShadow: "0px 5px 5px #00000050;"
+                      } }} onClick={() => handleDelete(point._id)}>
+                        <DeleteOutlineIcon />
+                      </IconButton>
                     </Stack>
                   </TableCell>}
                 </TableRow>
