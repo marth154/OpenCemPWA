@@ -45,6 +45,7 @@ export default function Layout(props: Props) {
         jsCookie.remove("name")
         jsCookie.remove("email")
         jsCookie.remove("role")
+        jsCookie.remove("access")
         router.push("/login")
     }
 

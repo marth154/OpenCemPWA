@@ -1,6 +1,7 @@
 import { LoadingButton } from '@mui/lab';
 import { FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
 import { useFormik } from 'formik';
+import { useRouter } from 'next/router';
 import Details from '../../@types/details';
 import typeDevice from '../../utils/mock_data/typeDevice';
 
@@ -24,7 +25,7 @@ interface InitialValue {
 }
 
 export default function FormPoint({ coordMarker, setCreateMarker, fetchPoint, mode, point }: Props) {
-
+    const router = useRouter()
     const formik = useFormik<InitialValue>({
         initialValues: {
             lat: coordMarker.lat ? coordMarker.lat : 0,
@@ -42,6 +43,7 @@ export default function FormPoint({ coordMarker, setCreateMarker, fetchPoint, mo
                     })
                         .then((res) => {
                             fetchPoint()
+                            router.reload()
                         })
                 } catch (error) {
                     console.log(error)

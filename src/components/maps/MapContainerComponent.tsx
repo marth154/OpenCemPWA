@@ -12,6 +12,7 @@ import FormPoint from './FormPoint';
 export default function MapContainerComponent() {
     const [createMarker, setCreateMarker] = useState<{ lat: number | undefined, lng: number | undefined }>({ lat: undefined, lng: undefined })
     const [listPoint, setListPoint] = useState<Details[] | undefined>()
+    const [open, setOpen] = useState<boolean>(false)
     const session = useSession()
     function MyComponent() {
         const map = useMapEvents({
@@ -19,7 +20,7 @@ export default function MapContainerComponent() {
             },
             click: (e) => {
                 const { lat, lng } = e.latlng;
-                session.access == "EDIT" && setCreateMarker({ lat: lat, lng: lng })
+                (session.access == "EDIT" && !open) && setCreateMarker({ lat: lat, lng: lng })
             }
         });
 
@@ -62,7 +63,7 @@ export default function MapContainerComponent() {
                         <Marker position={[point.lat, point.lng]}>
                             <Popup>
                                 <Box sx={{ width: "16rem" }}>
-                                    <PointDetails details={point} fetchPoint={fetchPoint} />
+                                    <PointDetails details={point} fetchPoint={fetchPoint} setOpen={(value: boolean) => setOpen(value)}/>
                                 </Box>
                             </Popup>
                         </Marker>

@@ -8,10 +8,11 @@ import typeDevice from "./mock_data/typeDevice";
 
 interface Props {
     details: Details | undefined
+    setOpen: (value: boolean) => void
     fetchPoint: () => void
 }
 
-export default function PointDetails({ details, fetchPoint }: Props) {
+export default function PointDetails({ details, fetchPoint, setOpen }: Props) {
     const [mode, setMode] = useState<"update" | "read">("read")
     const _type = typeDevice.find((type) => { return type.value === details?.type })
     const [load, setLoad] = useState<boolean>(false)
@@ -25,6 +26,7 @@ export default function PointDetails({ details, fetchPoint }: Props) {
                 body: JSON.stringify({ id: id })
             }).then((res) => {
                 fetchPoint()
+                setOpen(false)
                 setLoad(false)
             })
         } catch (error) {
@@ -44,7 +46,7 @@ export default function PointDetails({ details, fetchPoint }: Props) {
                         <Typography>Type: {_type?.label}</Typography>
                     </Stack>
                     {session.access == "EDIT" && <Stack direction="row" justifyContent="space-around">
-                        <Button onClick={() => setMode("update")}>
+                        <Button onClick={() => {setMode("update"); setOpen(true)}}>
                             Modifier
                         </Button>
                         <LoadingButton loading={load} color="error" variant="contained" onClick={() => {
