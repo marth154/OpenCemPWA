@@ -11,11 +11,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
-import { useSession } from 'next-auth/react';
+import jsCookie from 'js-cookie';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { ReactNode } from 'react';
-import LoginForm from '../authentication/LoginForm';
+import useSession from '../../hook/useSession';
 
 const drawerWidth = 240;
 
@@ -28,72 +28,82 @@ interface Props {
     children: ReactNode
 }
 
-const navConfig = [
-    {
-        text: "Map",
-        icon: <MapRoundedIcon />,
-        route: "/"
-    }, {
-        text: "List",
-        icon: <FormatListBulletedRoundedIcon />,
-        route: "/list"
-    }
-]
+
 
 export default function Layout(props: Props) {
+
     const { window } = props;
     const router = useRouter()
-    const { data: session } = useSession()
+    const session = useSession()
     const [mobileOpen, setMobileOpen] = React.useState(false);
-
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
 
+    const signOut = () => {
+        jsCookie.remove("id")
+        jsCookie.remove("name")
+        jsCookie.remove("email")
+        jsCookie.remove("role")
+        router.push("/login")
+    }
+
+    const navConfig = [
+        {
+            text: "Map",
+            icon: <MapRoundedIcon />,
+            route: "/"
+        }, {
+            text: "List",
+            icon: <FormatListBulletedRoundedIcon />,
+            route: "/list"
+        }
+    ]
     const drawer = (
         <>
             <Stack direction="column" >
                 <>
                     <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 2 }} >
-                        {
-                            session ?
-                                <>
-                                    <Avatar src="" />
-                                    <Typography>Martin DANVERS</Typography>
-                                </>
-                                : <>
-                                    <LoginForm />
-                                </>
-                        }
+                        <Avatar src="" />
+                        <Typography>{session.name}</Typography>
                     </Stack>
                     <Divider />
                     <List>
-                        {navConfig.map((item) => (
-                            <ListItem key={item.text} disablePadding>
-                                <ListItemButton onClick={() => router.push(item.route)}>
-                                    <ListItemIcon>
-                                        {item.icon}
-                                    </ListItemIcon>
-                                    <ListItemText primary={item.text} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
+                        {navConfig.map((item) => {
+                            if (session.role !== "user" && item.route === "/") {
+
+                            } else {
+                                return (
+                                    <ListItem key={item.text} disablePadding>
+                                        <ListItemButton onClick={() => router.push(item.route)}>
+                                            <ListItemIcon>
+                                                {item.icon}
+                                            </ListItemIcon>
+                                            <ListItemText primary={item.text} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                )
+                            }
+                        })}
                     </List>
                 </>
-                {session && <ListItem key={"Déconnexion"} disablePadding>
-                    <ListItemButton>
+                <ListItem key={"Déconnexion"} disablePadding>
+                    <ListItemButton onClick={() => signOut()}>
                         <ListItemIcon>
                             <ExitToAppRoundedIcon />
                         </ListItemIcon>
                         <ListItemText primary={"Déconnexion"} />
                     </ListItemButton>
-                </ListItem>}
+                </ListItem>
             </Stack>
         </>
     );
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
+    // if (!session.id) {
+    //     router.push("/login")
+    // }
     return (
         <Box sx={{ display: 'flex' }}>
             <Box

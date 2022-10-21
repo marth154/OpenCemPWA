@@ -1,7 +1,9 @@
 export default interface Details {
-    id: string
+    _id: string
     name: string
     createdAt: string
-    latitude: number
-    longitude: number
+    description: string
+    type: string
+    lat: number
+    lng: number
 }
