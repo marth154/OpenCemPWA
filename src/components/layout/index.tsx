@@ -1,3 +1,4 @@
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
 import FormatListBulletedRoundedIcon from '@mui/icons-material/FormatListBulletedRounded';
 import MapRoundedIcon from '@mui/icons-material/MapRounded';
@@ -56,6 +57,10 @@ export default function Layout(props: Props) {
             text: "List",
             icon: <FormatListBulletedRoundedIcon sx={{ color: "white" }} />,
             route: "/list"
+        }, {
+            text: "Dashboard",
+            icon: <DashboardIcon sx={{ color: "white" }} />,
+            route: "/dashboard"
         }
     ]
     const drawer = (
